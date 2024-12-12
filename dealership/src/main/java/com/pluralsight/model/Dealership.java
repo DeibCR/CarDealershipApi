@@ -1,7 +1,7 @@
-package model;
+package com.pluralsight.model;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import dao.VehicleDAOMysqlJdbc;
+import com.pluralsight.dao.VehicleDAOMysqlJdbc;
 
 import java.io.FileInputStream;
 import java.io.IOException;

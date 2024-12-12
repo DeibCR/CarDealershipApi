@@ -1,8 +1,6 @@
-package dao;
+package com.pluralsight.dao;
 
-import model.Contract;
-import model.LeaseContract;
-import model.SalesContract;
+import com.pluralsight.model.*;
 
 import javax.sql.DataSource;
 import java.sql.*;

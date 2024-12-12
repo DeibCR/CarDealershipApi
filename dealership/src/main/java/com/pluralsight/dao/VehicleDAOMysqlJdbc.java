@@ -1,4 +1,4 @@
-package dao;
+package com.pluralsight.dao;
 
 import model.Vehicle;
 

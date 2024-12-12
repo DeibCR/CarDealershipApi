@@ -1,6 +1,6 @@
-package dao;
+package com.pluralsight.dao;
 
-import model.Contract;
+import com.pluralsight.model.Contract;
 
 public interface ContractDAO {
     boolean addContract(Contract contract);

@@ -1,7 +1,6 @@
-package model;
+package com.pluralsight.model;
 
-import model.Contract;
-import model.Vehicle;
+import com.pluralsight.model.*;
 
 import java.util.ResourceBundle;
 
