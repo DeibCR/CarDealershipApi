@@ -27,7 +27,7 @@ public class ContractDAOMysqlJdbc implements ContractDAO{
                 contractSt.setDate(2,Date.valueOf(contract.getDateOfContract()));
                 contractSt.setString(3,contract.getCustomerName());
                 contractSt.setString(4,contract.getCustomerEmail());
-                contractSt.setString(5,contract.getVehicleSold().getVin());
+                contractSt.setInt(5,contract.getVehicleSold().getVin());
                 contractSt.executeUpdate();
 
             }
@@ -40,7 +40,7 @@ public class ContractDAOMysqlJdbc implements ContractDAO{
                     salesSt.setDouble(3,salesContract.getRecordingFee());
                     salesSt.setDouble(4,salesContract.getProcessingFee());
                     salesSt.setBoolean(5,salesContract.isFinance());
-                    salesSt.setString(6,salesContract.getVehicleSold().getVin());
+                    salesSt.setInt(6,salesContract.getVehicleSold().getVin());
                     salesSt.executeUpdate();
 
                 }
@@ -50,7 +50,7 @@ public class ContractDAOMysqlJdbc implements ContractDAO{
                     leaseSt.setInt(1,leaseContract.getContractID());
                     leaseSt.setDouble(2,leaseContract.getExpectedEndingValuePercentage());
                     leaseSt.setDouble(3,leaseContract.getLeaseFee());
-                    leaseSt.setString(4,leaseContract.getVehicleSold().getVin());
+                    leaseSt.setInt(4,leaseContract.getVehicleSold().getVin());
                     leaseSt.executeUpdate();
                 }
 

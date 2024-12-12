@@ -1,6 +1,6 @@
 package com.pluralsight.dao;
 
-import model.Vehicle;
+import com.pluralsight.model.Vehicle;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -34,16 +34,16 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
             ps.setDouble(2,maxPrice);
             ResultSet rs= ps.executeQuery();
             while (rs.next()){
-                String vin =rs.getString("vin");
+                int vin =rs.getInt("vin");
                 int year=rs.getInt("year");
                 String make=rs.getString("make");
                 String model=rs.getString("model");
-                String vehicleType=rs.getString("vehicleType");
+                String type=rs.getString("type");
                 String color=rs.getString("color");
                 int odometer=rs.getInt("odometer");
                 double price=rs.getDouble("price");
                 boolean sold=rs.getBoolean("sold");
-                vehiclesByPrice.add(new Vehicle(vin,year,make,model,vehicleType,color,odometer,price,sold));
+                vehiclesByPrice.add(new Vehicle(vin,year,make,model,type,color,odometer,price,sold));
             }
 
         }catch (SQLException e){
@@ -67,16 +67,16 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
             ps.setString(2, model);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-            String vin = rs.getString("vin");
+            int vin = rs.getInt("vin");
             int year = rs.getInt("year");
             String vehicleMake = rs.getString("make");
             String vehicleModel = rs.getString("model");
-            String vehicleType = rs.getString("vehicleType");
+            String type = rs.getString("type");
             String color = rs.getString("color");
             int odometer = rs.getInt("odometer");
             double price = rs.getDouble("price");
             boolean sold = rs.getBoolean("sold");
-            vehiclesByMakeModel.add(new Vehicle(vin, year, vehicleMake,vehicleModel, vehicleType, color, odometer, price, sold));
+            vehiclesByMakeModel.add(new Vehicle(vin, year, vehicleMake,vehicleModel, type, color, odometer, price, sold));
         }
 
         }catch (SQLException e){
@@ -101,16 +101,16 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
             ps.setDouble(2,minYear);
             ResultSet rs= ps.executeQuery();
             while (rs.next()){
-                String vin =rs.getString("vin");
+                int vin =rs.getInt("vin");
                 int year=rs.getInt("year");
                 String make=rs.getString("make");
                 String model=rs.getString("model");
-                String vehicleType=rs.getString("vehicleType");
+                String type=rs.getString("type");
                 String color=rs.getString("color");
                 int odometer=rs.getInt("odometer");
                 double price=rs.getDouble("price");
                 boolean sold=rs.getBoolean("sold");
-                vehiclesByYearRange.add(new Vehicle(vin,year,make,model,vehicleType,color,odometer,price,sold));
+                vehiclesByYearRange.add(new Vehicle(vin,year,make,model,type,color,odometer,price,sold));
             }
 
         }catch (SQLException e){
@@ -135,16 +135,16 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
             ps.setString(1,color);
             ResultSet rs= ps.executeQuery();
             while (rs.next()){
-                String vin =rs.getString("vin");
+                int vin =rs.getInt("vin");
                 int year=rs.getInt("year");
                 String make=rs.getString("make");
                 String model=rs.getString("model");
-                String vehicleType=rs.getString("vehicleType");
+                String type=rs.getString("vehicleType");
                 String vehicleColor=rs.getString("color");
                 int odometer=rs.getInt("odometer");
                 double price=rs.getDouble("price");
                 boolean sold=rs.getBoolean("sold");
-                vehiclesByColor.add(new Vehicle(vin,year,make,model,vehicleType,vehicleColor,odometer,price,sold));
+                vehiclesByColor.add(new Vehicle(vin,year,make,model,type,vehicleColor,odometer,price,sold));
             }
 
         }catch (SQLException e){
@@ -170,16 +170,16 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
             ps.setDouble(2,maxOdometer);
             ResultSet rs= ps.executeQuery();
             while (rs.next()){
-                String vin =rs.getString("vin");
+                int vin =rs.getInt("vin");
                 int year=rs.getInt("year");
                 String make=rs.getString("make");
                 String model=rs.getString("model");
-                String vehicleType=rs.getString("vehicleType");
+                String type=rs.getString("type");
                 String color=rs.getString("color");
                 int odometer=rs.getInt("odometer");
                 double price=rs.getDouble("price");
                 boolean sold=rs.getBoolean("sold");
-                vehiclesByMileageRange.add(new Vehicle(vin,year,make,model,vehicleType,color,odometer,price,sold));
+                vehiclesByMileageRange.add(new Vehicle(vin,year,make,model,type,color,odometer,price,sold));
             }
 
         }catch (SQLException e){
@@ -195,14 +195,14 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
         String query= """
                 SELECT *
                 FROM vehicles
-                WHERE vehicleType = ?
+                WHERE type = ?
                 """;
         try(Connection connection=dataSource.getConnection()){
             PreparedStatement ps=connection.prepareStatement(query);
             ps.setString(1,vehicleType);
             ResultSet rs= ps.executeQuery();
             while (rs.next()){
-                String vin =rs.getString("vin");
+                int vin =rs.getInt("vin");
                 int year=rs.getInt("year");
                 String make=rs.getString("make");
                 String model=rs.getString("model");
@@ -224,16 +224,16 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
     @Override
     public void addVehicle(Vehicle vehicle) {
         String query = """
-                INSERT INTO vehicles (vin, year, make, model, vehicleType, color, odometer, price, sold)
+                INSERT INTO vehicles (vin, year, make, model, type, color, odometer, price, sold)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
         try (Connection connection=dataSource.getConnection();
         PreparedStatement ps= connection.prepareStatement(query)){
-            ps.setString(1, vehicle.getVin());
+            ps.setInt(1, vehicle.getVin());
             ps.setInt(2, vehicle.getYear());
             ps.setString(3, vehicle.getMake());
             ps.setString(4, vehicle.getModel());
-            ps.setString(5, vehicle.getVehicleType());
+            ps.setString(5, vehicle.getType());
             ps.setString(6, vehicle.getColor());
             ps.setInt(7, vehicle.getOdometer());
             ps.setDouble(8, vehicle.getPrice());
@@ -277,17 +277,17 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String vin = rs.getString("vin");
+                int vin = rs.getInt("vin");
                 int year = rs.getInt("year");
                 String make = rs.getString("make");
                 String model = rs.getString("model");
-                String vehicleType = rs.getString("vehicleType");
+                String type = rs.getString("type");
                 String color = rs.getString("color");
                 int odometer = rs.getInt("odometer");
                 double price = rs.getDouble("price");
                 boolean sold = rs.getBoolean("sold");
 
-                Vehicle vehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold);
+                Vehicle vehicle = new Vehicle(vin, year, make, model, type, color, odometer, price, sold);
                 vehicles.add(vehicle);
             }
         } catch (SQLException e) {
@@ -309,11 +309,11 @@ public class VehicleDAOMysqlJdbc implements VehicleDAO{
 
             if (resultSet.next()) {
                 return new Vehicle(
-                        resultSet.getString("vin"),
+                        resultSet.getInt("vin"),
                         resultSet.getInt("year"),
                         resultSet.getString("make"),
                         resultSet.getString("model"),
-                        resultSet.getString("VehicleType"),
+                        resultSet.getString("type"),
                         resultSet.getString("color"),
                         resultSet.getInt("odometer"),
                         resultSet.getDouble("price"),

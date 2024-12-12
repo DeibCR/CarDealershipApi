@@ -81,7 +81,7 @@ public class SalesContract extends Contract {
                 vehicle.getYear(),
                 vehicle.getMake(),
                 vehicle.getModel(),
-                vehicle.getVehicleType(),
+                vehicle.getType(),
                 vehicle.getColor(),
                 vehicle.getOdometer(),
                 vehicle.getPrice(),

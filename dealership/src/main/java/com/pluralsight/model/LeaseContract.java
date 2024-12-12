@@ -52,7 +52,7 @@ public class LeaseContract extends Contract {
                 getVehicleSold().getYear(),
                 getVehicleSold().getMake(),
                 getVehicleSold().getModel(),
-                getVehicleSold().getVehicleType(),
+                getVehicleSold().getType(),
                 getVehicleSold().getColor(),
                 getVehicleSold().getOdometer(),
                 getVehicleSold().getPrice(),

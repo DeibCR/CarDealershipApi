@@ -1,33 +1,60 @@
 package com.pluralsight.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name= "vehicles")
 public class Vehicle {
-    private final String vin;
-    private final int year;
-    private final String make;
-    private final String model;
-    private final String vehicleType;
-    private final String color;
-    private final int odometer;
-    private final double price;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "vin")
+    private  Integer vin;
+
+
+    @Column(name="year")
+    private  Integer year;
+
+    @Column(name = "make")
+    private  String make;
+
+    @Column(name = "model")
+    private  String model;
+
+    @Column(name="type")
+    private  String type;
+
+    @Column(name="color")
+    private  String color;
+
+    @Column(name="odometer")
+    private  Integer odometer;
+
+    @Column(name="price")
+    private  Double price;
+
+    @Column(name="sold")
     private  boolean sold;
 
-    public Vehicle(String vin, int year, String make, String model, String vehicleType, String color, int odometer, double price,boolean sold) {
+    public Vehicle() {
+    }
+
+    public Vehicle(Integer vin, int year, String make, String model, String type, String color, int odometer, double price, boolean sold) {
         this.vin = vin;
         this.year = year;
         this.make = make;
         this.model = model;
-        this.vehicleType = vehicleType;
+        this.type = type;
         this.color = color;
         this.odometer = odometer;
         this.price = price;
         this.sold=sold;
     }
 
-    public String getVin() {
+    public Integer getVin() {
         return vin;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
@@ -39,23 +66,23 @@ public class Vehicle {
         return model;
     }
 
-    public String getVehicleType() {
-        return vehicleType;
+    public String getType() {
+        return type;
     }
 
     public String getColor() {
         return color;
     }
 
-    public int getOdometer() {
+    public Integer getOdometer() {
         return odometer;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public boolean isSold() {
+    public Boolean isSold() {
         return sold;
     }
 
@@ -65,6 +92,6 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return String.format("%-8s %-8s %-12s %-12s %-8s %-8s %-8s $%8.2f", vin, year, make, model, vehicleType, color, odometer, price);
+        return String.format("%-8s %-8s %-12s %-12s %-8s %-8s %-8s $%8.2f", vin, year, make, model, type, color, odometer, price);
     }
 }
