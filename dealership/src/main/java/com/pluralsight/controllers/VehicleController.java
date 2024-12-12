@@ -49,8 +49,37 @@ public class VehicleController {
     @GetMapping("/findByVin")
     public Vehicle findVehicleByVin(@RequestParam Integer vin) {
         return vehicleRepository.findVehicleByVin(vin);
+    }
+
+    @PutMapping("/update/{vin}")
+    public Vehicle updateVehicle(@PathVariable Integer vin, @RequestBody Vehicle updatedVehicle){
+        Vehicle registerVehicle= vehicleRepository.findVehicleByVin(vin);
+        if (registerVehicle != null){
+            registerVehicle.setMake(updatedVehicle.getMake());
+            registerVehicle.setType(updatedVehicle.getModel());
+            registerVehicle.setYear(updatedVehicle.getYear());
+            registerVehicle.setColor(updatedVehicle.getColor());
+            registerVehicle.setPrice(updatedVehicle.getPrice());
+            registerVehicle.setOdometer(updatedVehicle.getOdometer());
+            registerVehicle.setType(updatedVehicle.getType());
 
 
+            return vehicleRepository.save(registerVehicle);
+        }else {
+            return null;
+        }
+    }
+
+    @DeleteMapping("/delete/{vin}")
+    public String deleteVehicle(@PathVariable Integer vin){
+        Vehicle vehicle=vehicleRepository.findVehicleByVin(vin);
+
+        if (vehicle != null){
+            vehicleRepository.delete(vehicle);
+            return "Vehicle with VIN: " + vin + " has been deleted successfully";
+        }else {
+            return "Vehicle with VIN: " + vin + " not found";
+        }
     }
 
 }

@@ -50,6 +50,38 @@ public class Vehicle {
         this.sold=sold;
     }
 
+    public void setVin(Integer vin) {
+        this.vin = vin;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setOdometer(Integer odometer) {
+        this.odometer = odometer;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public Integer getVin() {
         return vin;
     }

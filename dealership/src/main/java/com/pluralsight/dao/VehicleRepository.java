@@ -38,6 +38,7 @@ public interface VehicleRepository  extends JpaRepository<Vehicle,String> {
             String model,
             Integer minYear,
             Integer maxYear,
+
             String color,
             String type,
             Integer minOdometer,
