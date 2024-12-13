@@ -1,42 +1,63 @@
 package com.pluralsight.model;
 
+import java.math.BigDecimal;
 import java.util.ResourceBundle;
 
+import jakarta.persistence.*;
+import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@Entity
+@Table(name= "lease_contracts")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class LeaseContract extends Contract {
-    private final double expectedEndingValuePercentage;
-    private final double leaseFee;
+
+    @Column(name = "expected_ending_value_percentage")
+    private BigDecimal expected_ending_value_percentage;
+
+
+    @Column(name = "lease_fee")
+    private  BigDecimal lease_fee;
+
+
+
 
     private static final ResourceBundle resourceBundle= ResourceBundle.getBundle("contract_config");// Using resource bundle to provide flexibility and maintainability
 
-    public LeaseContract(int contractID, String dateOfContract, String customerName, String customerEmail, Vehicle vehicleSold, double expectedEndingValuePercentage, double leaseFee) {
-        super(contractID,dateOfContract, customerName, customerEmail, vehicleSold);
-        this.expectedEndingValuePercentage = vehicleSold.getPrice() *
-                Double.parseDouble(resourceBundle.getString("lease.expected.ending.value.percentage"));
-        this.leaseFee = vehicleSold.getPrice() *
-                Double.parseDouble(resourceBundle.getString("lease.fee"));
+
+    public LeaseContract() {
     }
 
-    public double getExpectedEndingValuePercentage() {
-        return expectedEndingValuePercentage;
+
+    public BigDecimal getExpected_ending_value_percentage() {
+
+        return expected_ending_value_percentage;
     }
 
-    public double getLeaseFee() {
-        return leaseFee;
+    public void setExpected_ending_value_percentage(BigDecimal expected_ending_value_percentage) {
+
+        this.expected_ending_value_percentage = expected_ending_value_percentage;
+    }
+
+    public void setLease_fee(BigDecimal lease_fee) {
+        this.lease_fee = lease_fee;
+    }
+
+    public BigDecimal getLease_fee() {
+
+        return lease_fee;
     }
 
     @Override
-    public double getTotalPrice() {
-        return (getVehicleSold().getPrice()-expectedEndingValuePercentage)+leaseFee;
+    public Double getTotalPrice() {
+        return null;
     }
 
     @Override
-    public double getMonthlyPayment() {
-        double interestRate = Double.parseDouble(resourceBundle.getString("lease.monthly.payment.interest"));
-        int termMonths = Integer.parseInt(resourceBundle.getString("lease.monthly.payment.term"));
+    public Double getMonthlyPayment() {
 
-
-        double principalAmount = getVehicleSold().getPrice() - expectedEndingValuePercentage;
-        return (principalAmount + leaseFee * interestRate) / termMonths;
+        return null;
     }
 
     @Override
@@ -45,9 +66,9 @@ public class LeaseContract extends Contract {
                // getDateOfContract(), getCustomerName(), getCustomerEmail(),
                // getVehicleSold().toString(), expectedEndingValuePercentage, leaseFee, getTotalPrice());
         return String.format("LEASE|%s|%s|%s|%s|%d|%s|%s|%s|%s|%d|%.2f|%.2f|%.2f|%.2f|%.2f",
-                getDateOfContract(),
-                getCustomerName(),
-                getCustomerEmail(),
+                getDate(),
+                getName(),
+                getEmail(),
                 getVehicleSold().getVin(),
                 getVehicleSold().getYear(),
                 getVehicleSold().getMake(),
@@ -56,8 +77,8 @@ public class LeaseContract extends Contract {
                 getVehicleSold().getColor(),
                 getVehicleSold().getOdometer(),
                 getVehicleSold().getPrice(),
-                getExpectedEndingValuePercentage(),
-                getLeaseFee(),
+                getExpected_ending_value_percentage(),
+                getLease_fee(),
                 getTotalPrice(),
                 getMonthlyPayment());
     }

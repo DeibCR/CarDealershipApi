@@ -2,6 +2,8 @@ package com.pluralsight.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name= "vehicles")
 public class Vehicle {
@@ -30,7 +32,7 @@ public class Vehicle {
     private  Integer odometer;
 
     @Column(name="price")
-    private  Double price;
+    private BigDecimal price;
 
     @Column(name="sold")
     private  boolean sold;
@@ -38,7 +40,7 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(Integer vin, int year, String make, String model, String type, String color, int odometer, double price, boolean sold) {
+    public Vehicle(Integer vin, int year, String make, String model, String type, String color, int odometer, BigDecimal price, boolean sold) {
         this.vin = vin;
         this.year = year;
         this.make = make;
@@ -78,7 +80,7 @@ public class Vehicle {
         this.odometer = odometer;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -110,7 +112,7 @@ public class Vehicle {
         return odometer;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 

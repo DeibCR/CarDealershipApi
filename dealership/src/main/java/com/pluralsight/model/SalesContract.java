@@ -1,67 +1,90 @@
 package com.pluralsight.model;
 
-import com.pluralsight.model.*;
-
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+
+@Entity
+@Table(name= "sales_contracts")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SalesContract extends Contract {
-    private  final double salesTax;
-    private final double recordingFee;
-    private final double processingFee;
-    private final boolean isFinance;
+
+    @Column(name = "sales_tax")
+    private BigDecimal sales_tax;
+    @Column(name = "recording_fee")
+    private BigDecimal recording_fee;
+    @Column(name = "processing_fee")
+    private BigDecimal processing_fee;
+    @Column(name = "is_finance")
+    private Boolean is_finance;
+
+
+
+
     private static final ResourceBundle resourceBundle= ResourceBundle.getBundle("contract_config");
 
-    public SalesContract(int contractID,String dateOfContract, String customerName, String customerEmail, Vehicle vehicleSold, double salesTax, double recordingFee, double processingFee, boolean isFinance) {
-        super(contractID,dateOfContract, customerName, customerEmail, vehicleSold);
-        this.salesTax = Double.parseDouble(resourceBundle.getString("sales.tax"));
-        this.recordingFee = Double.parseDouble(resourceBundle.getString("recording.fee"));
-        this.processingFee = vehicleSold.getPrice()>10000 ?
-                Double.parseDouble(resourceBundle.getString("processing.fee.under10000")) :
-                Double.parseDouble(resourceBundle.getString("processing.fee.over10000"));
 
-        this.isFinance = isFinance;
+
+    public SalesContract() {
     }
 
-    public double getSalesTax() {
-        return salesTax;
-    }
+    public BigDecimal getSales_tax() {
 
-    public double getRecordingFee() {
-        return recordingFee;
+        return sales_tax;
     }
 
 
-    public double getProcessingFee() {
-        return processingFee;
+
+    public BigDecimal getRecording_fee() {
+
+        return recording_fee;
     }
 
 
-    public boolean isFinance() {
-        return isFinance;
+    public void setSales_tax(BigDecimal sales_tax) {
+
+        this.sales_tax = sales_tax;
+    }
+
+    public void setRecording_fee(BigDecimal recording_fee) {
+
+        this.recording_fee = recording_fee;
+    }
+
+    public void setProcessing_fee(BigDecimal processing_fee) {
+        this.processing_fee = processing_fee;
+    }
+
+    public void setFinance(Boolean finance) {
+        is_finance = finance;
+    }
+
+    public BigDecimal getProcessing_fee() {
+
+        return processing_fee;
+    }
+
+
+    public Boolean  isFinance() {
+        return is_finance;
     }
 
 
 
     @Override
-    public double getTotalPrice() {
-        double basePrice= getVehicleSold().getPrice();
-        double total= basePrice + ( basePrice * salesTax )+ recordingFee+processingFee;
-        return total;
+    public Double getTotalPrice() {
+
+        return null;
     }
 
     @Override
-    public double getMonthlyPayment() {
-        if (!isFinance) {
-            return 0;
-        }
-        double interestRate = getVehicleSold().getPrice() >= 10000
-                ? Double.parseDouble(resourceBundle.getString("monthly.payment.interest.over10000"))
-                : Double.parseDouble(resourceBundle.getString("monthly.payment.interest.under10000"));
-        int termMonths = getVehicleSold().getPrice() >= 10000
-                ? Integer.parseInt(resourceBundle.getString("monthly.payment.term.over10000"))
-                : Integer.parseInt(resourceBundle.getString("monthly.payment.term.under10000"));
+    public Double getMonthlyPayment() {
 
-        return (getVehicleSold().getPrice() * (1 + interestRate)) / termMonths;
+
+        return null;
 
     }
 
@@ -74,9 +97,9 @@ public class SalesContract extends Contract {
                 //getVehicleSold().getYear(), salesTax, recordingFee, processingFee, getTotalPrice(), isFinance);
         Vehicle vehicle = getVehicleSold();
         return String.format("SALE|%s|%s|%s|%s|%d|%s|%s|%s|%s|%d|%.2f|%.2f|%.2f|%.2f|%.2f|%s|%.2f",
-                getDateOfContract(),
-                getCustomerName(),
-                getCustomerEmail(),
+                getDate(),
+                getName(),
+                getEmail(),
                 vehicle.getVin(),
                 vehicle.getYear(),
                 vehicle.getMake(),
@@ -85,9 +108,9 @@ public class SalesContract extends Contract {
                 vehicle.getColor(),
                 vehicle.getOdometer(),
                 vehicle.getPrice(),
-                getSalesTax(),
-                getRecordingFee(),
-                getProcessingFee(),
+                getSales_tax(),
+                getRecording_fee(),
+                getProcessing_fee(),
                 getTotalPrice(),
                 "NO",
                 0.00 );

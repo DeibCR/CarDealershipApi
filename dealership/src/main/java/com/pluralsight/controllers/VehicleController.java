@@ -5,6 +5,7 @@ import com.pluralsight.model.Vehicle;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -22,8 +23,8 @@ public class VehicleController {
 
     @GetMapping("/search")
     public List<Vehicle> searchVehicles(
-            @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false) String make,
             @RequestParam(required = false) String model,
             @RequestParam(required = false) Integer minYear,

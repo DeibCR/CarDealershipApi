@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 public class DataBaseConfig {
     private BasicDataSource basicDataSource;
 
-
     @Bean
     public DataSource dataSource(){
         return basicDataSource;
@@ -17,11 +16,12 @@ public class DataBaseConfig {
 
     @Autowired
     public DataBaseConfig(@Value("${datasource.url}") String url,
-                          @Value("${data.source.username}") String username,
+                          @Value("${datasource.username}") String username,
                           @Value("${datasource.password}") String password)
     {
         basicDataSource=new BasicDataSource();
         basicDataSource.setUrl(url);
         basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
     }
 }

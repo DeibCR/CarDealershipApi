@@ -1,57 +1,88 @@
 package com.pluralsight.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+@Entity
+@Table(name= "contract")
+@Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "contractType")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = LeaseContract.class, name = "lease"),
+        @JsonSubTypes.Type(value = SalesContract.class, name = "sales")
+})
+
 public abstract class Contract {
-    private final int contractID;
-    private String dateOfContract;
-    private   String customerName;
-    private  String customerEmail;
-    private final Vehicle vehicleSold;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "contractID")
+    private  Integer contractID;
+    @Column(name = "date")
+    private LocalDate date;
+    @Column(name = "name")
+    private   String name;
+    @Column(name = "email")
+    private  String email;
+    @ManyToOne
+    @JoinColumn(name="vin", nullable = false)
+    private  Vehicle vehicleSold;
 
 
 
-    public Contract(int contractID,String dateOfContract, String customerName, String customerEmail, Vehicle vehicleSold) {
+    public Contract(Integer contractID,LocalDate dateOfContract, String customerName, String customerEmail, Vehicle vehicleSold) {
         this.contractID=contractID;
-        this.dateOfContract = dateOfContract;
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
+        this.date = dateOfContract;
+        this.name = customerName;
+        this.email = customerEmail;
         this.vehicleSold = vehicleSold;
     }
 
-    public int getContractID() {
+    public Contract() {
+    }
+
+    public Integer getContractID() {
         return contractID;
     }
 
-    public String getDateOfContract() {
-        return dateOfContract;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateOfContract(String dateOfContract) {
-        this.dateOfContract = dateOfContract;
+    public void setVehicleSold(Vehicle vehicleSold) {
+        this.vehicleSold = vehicleSold;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public String getName() {
+        return name;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Vehicle getVehicleSold() {
         return vehicleSold;
     }
 
-    public abstract double getTotalPrice();
+    public abstract Double getTotalPrice();
 
-    public abstract double getMonthlyPayment();
+    public abstract Double getMonthlyPayment();
 
     public abstract String  getRepresentation();
 }

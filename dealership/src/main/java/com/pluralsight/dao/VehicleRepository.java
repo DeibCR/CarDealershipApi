@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,19 +33,20 @@ public interface VehicleRepository  extends JpaRepository<Vehicle,String> {
             "(:maxOdometer IS NULL OR v.odometer <= :maxOdometer) AND " +
             "(:type IS NULL OR v.type = :type)")
     List<Vehicle> searchBy(
-            Double minPrice,
-            Double maxPrice,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
             String make,
             String model,
             Integer minYear,
             Integer maxYear,
-
             String color,
             String type,
             Integer minOdometer,
             Integer maxOdometer);
 
     Vehicle findVehicleByVin(Integer vin);
+
+    Optional<Vehicle> findByVin(Integer vin);
 
 
 
